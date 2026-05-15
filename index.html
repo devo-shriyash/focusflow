@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusFlow — Your focus, your way.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar glass">
+        <div class="brand">
+          <div class="brand-mark">⚡</div>
+          <div>
+            <h1>FocusFlow</h1>
+            <p>Your focus, your way.</p>
+          </div>
+        </div>
+
+        <nav class="nav" id="nav">
+          <button class="nav-item active" data-section="dashboard">Dashboard</button>
+          <button class="nav-item" data-section="analytics">Analytics</button>
+          <button class="nav-item" data-section="tasks">Tasks</button>
+          <button class="nav-item" data-section="sessions">Sessions</button>
+          <button class="nav-item" data-section="settings">Settings</button>
+        </nav>
+      </aside>
+
+      <main class="main-view">
+        <section class="section active" id="dashboard">
+          <header class="section-head">
+            <h2>Focus Dashboard</h2>
+            <p>A clean focus space with just what you need.</p>
+          </header>
+
+          <div class="dashboard-minimal glass">
+            <div class="mode-toggle" id="modeToggle">
+              <button class="mode active" data-mode="regular">Regular</button>
+              <button class="mode" data-mode="pomodoro">Pomodoro</button>
+            </div>
+
+            <div class="timer-wrap">
+              <svg class="ring" viewBox="0 0 220 220">
+                <circle class="ring-bg" cx="110" cy="110" r="96"></circle>
+                <circle class="ring-progress" cx="110" cy="110" r="96"></circle>
+              </svg>
+              <div class="time" id="timerDisplay">25:00</div>
+            </div>
+
+            <div class="linked-task">
+              <label for="linkedTaskSelect">Linked task</label>
+              <select id="linkedTaskSelect"></select>
+            </div>
+
+            <div class="timer-actions">
+              <button id="startBtn" class="btn primary">Start</button>
+              <button id="pauseBtn" class="btn">Pause</button>
+              <button id="resetBtn" class="btn ghost">Reset</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="analytics">
+          <header class="section-head">
+            <h2>Analytics</h2>
+            <p>Insanely detailed metrics that reveal your deep work patterns.</p>
+          </header>
+          <div class="analytics-grid">
+            <article class="metric glass"><h3>Total Focus Time</h3><p id="aTotalTime">0h</p></article>
+            <article class="metric glass"><h3>Total Sessions</h3><p id="aSessions">0</p></article>
+            <article class="metric glass"><h3>Completed Tasks</h3><p id="aCompleted">0</p></article>
+            <article class="metric glass"><h3>Avg Session</h3><p id="aAverage">0m</p></article>
+            <article class="panel glass wide">
+              <h3>Last 7 Days Focus Minutes</h3>
+              <canvas id="focusChart" width="800" height="260"></canvas>
+            </article>
+            <article class="panel glass">
+              <h3>Top Tasks by Time</h3>
+              <ul id="topTasks"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="tasks">
+          <header class="section-head">
+            <h2>Tasks</h2>
+            <p>Your complete task hub with priority, estimates, and status.</p>
+          </header>
+          <div class="split">
+            <form class="glass form" id="taskForm">
+              <h3>Create Task</h3>
+              <input name="title" placeholder="Task title" required />
+              <textarea name="description" placeholder="Details"></textarea>
+              <div class="row">
+                <select name="priority">
+                  <option>High</option>
+                  <option selected>Medium</option>
+                  <option>Low</option>
+                </select>
+                <input name="estimate" type="number" min="5" step="5" value="25" />
+              </div>
+              <button class="btn primary" type="submit">Add Task</button>
+            </form>
+            <div class="glass task-list-wrap">
+              <h3>All Tasks</h3>
+              <div id="taskList" class="task-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="sessions">
+          <header class="section-head">
+            <h2>Sessions</h2>
+            <p>Track every session, add manual entries, remove mistakes, export everything.</p>
+          </header>
+
+          <div class="split">
+            <form class="glass form" id="sessionForm">
+              <h3>Add Session</h3>
+              <select id="sessionTaskSelect"></select>
+              <input name="minutes" type="number" min="1" placeholder="Minutes" required />
+              <input name="date" type="date" required />
+              <button class="btn primary" type="submit">Add Session</button>
+              <button class="btn ghost" type="button" id="exportBtn">Export JSON</button>
+            </form>
+            <div class="glass sessions-list-wrap">
+              <h3>Session History</h3>
+              <div id="sessionList" class="session-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="settings">
+          <header class="section-head">
+            <h2>Settings</h2>
+            <p>Make the experience yours.</p>
+          </header>
+          <div class="settings-grid">
+            <article class="glass panel">
+              <h3>Appearance</h3>
+              <label><input type="checkbox" id="glowToggle" checked /> Enable neon glow</label>
+              <label>Accent
+                <select id="accentSelect">
+                  <option value="violet" selected>Violet Aurora</option>
+                  <option value="ocean">Ocean Pulse</option>
+                  <option value="sunset">Sunset Flow</option>
+                </select>
+              </label>
+            </article>
+            <article class="glass panel">
+              <h3>Focus Preferences</h3>
+              <label>Pomodoro length (minutes)
+                <input id="pomodoroLength" type="number" min="5" value="25" />
+              </label>
+              <p class="hint">Changes apply when you reset timer in Pomodoro mode.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
